@@ -77,7 +77,6 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
-# Reflection: Observer Pattern in BambangShop
 
 ## 1. Do we need an interface (trait) in this case?
 
@@ -102,7 +101,6 @@ Thus, The Singleton pattern does not replace DashMap. We still need DashMap to e
 
 #### Reflection Publisher-2
 
-## Reflection Publisher-2
 
 ### Why do we need to separate "Service" and "Repository" from a Model?
 
@@ -131,3 +129,32 @@ Some helpful features I’ve used:
 Postman is especially helpful for collaborative projects or testing APIs that integrate with external systems. I can see how this tool would continue to be useful in future projects, especially for debugging and verifying back-end logic.
 
 #### Reflection Publisher-3
+
+
+### Which variation of Observer Pattern is used in this tutorial case?
+
+In this tutorial, we use the **Push model** of the Observer Pattern. The Publisher (main application) pushes product data directly to all registered Subscribers by sending HTTP POST requests to their specified URLs when a new product is added.
+
+### What are the advantages and disadvantages of using the other variation (Pull model)?
+
+If we used the **Pull model**, the Subscribers would be responsible for contacting the Publisher to fetch new data, such as periodically requesting the latest product updates.
+
+**Advantages of Pull model:**
+- Subscribers have more control over when and how often they retrieve data.
+- The Publisher becomes simpler since it doesn't need to notify each Subscriber.
+- Can reduce load on the Publisher if Subscribers poll infrequently.
+
+**Disadvantages of Pull model:**
+- Data may be outdated on the Subscriber side due to delayed polling.
+- More complex scheduling logic is required on each Subscriber.
+- Increases network traffic if many Subscribers poll frequently.
+- Does not support real-time updates effectively, unlike Push.
+
+In this case, using Push is more suitable because we want Subscribers to get real-time notifications immediately when a new product is published.
+
+### What happens if we do not use multi-threading in the notification process?
+
+If we do not use multi-threading or asynchronous execution during the notification process, the Publisher will notify each Subscriber one by one, blocking the main thread until all HTTP requests are completed. This introduces several issues:
+- The product creation endpoint becomes slow and unresponsive if there are many Subscribers or if any of them are slow to respond.
+- A single slow or failed Subscriber can delay the entire process.
+- The system becomes less scalable and harder to maintain real-time
