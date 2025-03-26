@@ -77,6 +77,28 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+# Reflection: Observer Pattern in BambangShop
+
+## 1. Do we need an interface (trait) in this case?
+
+Yes, using a trait (Rust’s equivalent of an interface) is still recommended in the BambangShop case. The main reason is to stay aligned with the intent of the Observer design pattern, which emphasizes decoupling the Publisher from the concrete implementations of its Subscribers.
+
+By using a trait, we ensure that the Publisher only depends on the trait abstraction, not on specific subscriber types. This makes the system easier to extend in the future if we want to support different kinds of subscriber behavior (e.g., logging, database storage, or various notification methods). Even if the current implementation only uses one type of subscriber, applying the trait still follows good design principles and prepares the system for future flexibility.
+
+## 2. Is using Vec sufficient or is DashMap necessary?
+
+Using a simple Vec would be sufficient if the application were guaranteed to be single-threaded. However, since the application may involve concurrent HTTP requests (especially when using Rocket), there could be multiple threads accessing the list of subscribers at the same time.
+
+In this case, using a DashMap is more appropriate because it is a concurrent map that allows safe and efficient read and write access across multiple threads. It also allows for fast lookup using unique identifiers like `url` or `id`. Therefore, DashMap is necessary to maintain thread safety and performance in a concurrent environment.
+
+## 3. Do we still need DashMap or can we use the Singleton pattern instead?
+
+The Singleton pattern and DashMap serve different purposes. Singleton provides a single shared instance of an object, which is useful for global access. However, it does not guarantee thread safety on its own.
+
+DashMap, on the other hand, is specifically designed to allow thread-safe access to a shared collection. In this case, the best approach is to combine both patterns: use a Singleton to create a globally accessible subscriber registry, and use DashMap within that Singleton to handle concurrent access.
+
+Thus, The Singleton pattern does not replace DashMap. We still need DashMap to ensure thread safety, and Singleton helps manage global access to that DashMap instance.
+
 
 #### Reflection Publisher-2
 
