@@ -102,4 +102,32 @@ Thus, The Singleton pattern does not replace DashMap. We still need DashMap to e
 
 #### Reflection Publisher-2
 
+## Reflection Publisher-2
+
+### Why do we need to separate "Service" and "Repository" from a Model?
+
+Separating the Service and Repository layers from the Model aligns with the Single Responsibility Principle. In this design, each component has a specific role: the Model represents the data structure, the Repository handles data access (e.g., querying or persisting data to a database), and the Service layer contains business logic.
+
+By separating these layers, we make the system more modular, easier to maintain, and easier to test. Changes to business logic won't affect data access code, and vice versa. This separation also improves flexibility, allowing us to replace or mock components independently in testing or during refactoring.
+
+### What happens if we only use the Model?
+
+If we only use the Model and put both data access and business logic inside it, the code becomes harder to manage and violates the Single Responsibility Principle. Each Model becomes tightly coupled with data operations and logic, leading to poor separation of concerns.
+
+As the application grows and more interactions occur between Program, Subscriber, and Notification models, the complexity increases. Each model would need to be aware of how to interact with other models directly, which leads to code duplication, less maintainability, and potential circular dependencies.
+
+For example, if the Program model manages subscribers and also sends notifications, it might end up depending on all other models. This makes it difficult to change one part of the application without affecting others.
+
+### How does Postman help with testing?
+
+Postman is very helpful in testing REST APIs. It allows me to send HTTP requests to specific endpoints and immediately view the response. This is useful for checking whether the application works as expected without having to build a front-end interface.
+
+Some helpful features I’ve used:
+- Organizing endpoints into collections for easy access and grouping by functionality
+- Reusing environment variables (e.g., `{{host}}`) for switching between development and production
+- Viewing detailed response bodies, status codes, and headers
+- Exporting and sharing collections with teammates
+
+Postman is especially helpful for collaborative projects or testing APIs that integrate with external systems. I can see how this tool would continue to be useful in future projects, especially for debugging and verifying back-end logic.
+
 #### Reflection Publisher-3
